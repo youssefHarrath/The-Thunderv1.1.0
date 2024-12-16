@@ -44,19 +44,19 @@ module.exports.run = async function ({ api, event, args }) {
             }, threadID, messageID);
         }
 
-        const new_api_url = `https://api.kenliejugarap.com/blackbox-gemini/?text=${encodeURIComponent(prompt)}`;
+        const new_api_url = `https://playground.y2pheq.me/gpt4?prompt=${encodeURIComponent(prompt)}`;
         const response = await axios.get(new_api_url);
 
-        if (response.data && response.data.response) {
-            const generatedText = response.data.response;
+        if (response.data && response.data.result) {
+            const generatedText = response.data.result;
             return api.sendMessage(`➪ 𝗚𝗣𝗧 🪽
 ━━━━━━━━━━━━━━━━━━━
 ${generatedText}
 ━━━━━━━━━━━━━━━━━━━
  ＺＩＮＯ Ｘ ＭＯＨＡＭＥＤ `, threadID, messageID);
         } else {
-            console.error('API response did not contain expected data:', response.data);
-            return api.sendMessage(`❌ An error occurred while generating the text response. Please try again later. Response data: ${JSON.stringify(response.data)}`, threadID, messageID);
+            console.error('Unexpected API response:', response.data);
+            return api.sendMessage(`❌ Unexpected API response format. Please try again later.`, threadID, messageID);
         }
     } catch (error) {
         console.error('Error:', error);
